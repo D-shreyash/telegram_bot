@@ -42,7 +42,10 @@ bot.onText(/\/create/, (msg) => {
   // Insert UUID and chatID into the database
   insertUUID(uuid, chatId, (err) => {
     if (err) {
-      bot.sendMessage(chatId, "🚨 Error: Could not save UUID to the database.");
+      bot.sendMessage(
+        chatId,
+        "🚨 Error: Could not save UUID to the database. or user already created the UUID"
+      );
     } else {
       bot.sendMessage(
         chatId,
@@ -52,3 +55,5 @@ bot.onText(/\/create/, (msg) => {
     }
   });
 });
+
+module.exports = bot;
