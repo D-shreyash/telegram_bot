@@ -50,7 +50,7 @@ bot.onText(/\/create/, (msg) => {
       bot.sendMessage(
         chatId,
         `🎉 Your UUID has been generated! To view it, visit:\n` +
-          `http://localhost:3000/link/${uuid}`
+          `https://telegram-bot-tawny-eight.vercel.app/link/${uuid}`
       );
     }
   });
