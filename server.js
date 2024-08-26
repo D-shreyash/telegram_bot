@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.send("Please go to the Telegram bot to generate a UUID.");
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 app.get("/link/:UUID", (req, res) => {
