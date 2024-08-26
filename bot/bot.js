@@ -1,6 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 const { BOT_TOKEN } = require("./config");
-const { v4: uuidv4 } = require("uuid");
+// const { v4: uuidv4 } = require("uuid");
 const { insertUUID } = require("../DB/db");
 
 // Initialize the bot
@@ -36,21 +36,19 @@ bot.onText(/\/help/, (msg) => {
 
 // Create UUID and send link
 bot.onText(/\/create/, (msg) => {
-  const uuid = uuidv4();
   const chatId = msg.chat.id;
 
-  // Insert UUID and chatID into the database
-  insertUUID(uuid, chatId, (err) => {
+  // Check and insert UUID into the database
+  insertUUID(null, chatId, (err, row) => {
     if (err) {
       bot.sendMessage(
         chatId,
-        "🚨 Error: Could not save UUID to the database. or user already created the UUID"
+        "🚨 Error: Could not retrieve or save UUID to the database."
       );
     } else {
       bot.sendMessage(
         chatId,
-        `🎉 Your UUID has been generated! To view it, visit:\n` +
-          `https://telegram-bot-tawny-eight.vercel.app/link/${uuid}`
+        `🎉 Your UUID is ready! To view it, visit:\nhttps://telegram-bot-tawny-eight.vercel.app/link/${row.UUID}`
       );
     }
   });

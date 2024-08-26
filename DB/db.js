@@ -24,11 +24,10 @@ db.run(sql, (err) => {
 
 // Function to insert data into the database
 function insertUUID(uuid, userId, callback) {
-  uuid = String(uuid);
   userId = String(userId);
 
   // First, check if the userId is already present
-  const checkSql = `SELECT * FROM USER_UUID WHERE USER_ID = ?`;
+  const checkSql = "SELECT * FROM USER_UUID WHERE USER_ID = ?";
   db.get(checkSql, [userId], (err, row) => {
     if (err) {
       console.log("ERROR CHECKING USER_ID", err.message);
@@ -38,8 +37,9 @@ function insertUUID(uuid, userId, callback) {
       console.log("UserID already exists:", row);
       callback(null, row);
     } else {
-      // If the userId is not found, proceed to insert the new data
-      const insertSql = `INSERT INTO USER_UUID (UUID, USER_ID) VALUES (?, ?);`;
+      // If the userId is not found, generate a new UUID and insert the new data
+      uuid = uuidv4();
+      const insertSql = "INSERT INTO USER_UUID (UUID, USER_ID) VALUES (?, ?)";
       db.run(insertSql, [uuid, userId], function (err) {
         if (err) {
           console.log("ERROR INSERTING INTO TABLE", err.message);
@@ -47,8 +47,8 @@ function insertUUID(uuid, userId, callback) {
         } else {
           console.log("Data inserted successfully");
 
-          // Retrieve and display the inserted data
-          const selectSql = `SELECT * FROM USER_UUID WHERE UUID = ?`;
+          // Retrieve and return the inserted data
+          const selectSql = "SELECT * FROM USER_UUID WHERE UUID = ?";
           db.get(selectSql, [uuid], (err, row) => {
             if (err) {
               console.log("ERROR FETCHING DATA", err.message);
