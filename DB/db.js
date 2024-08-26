@@ -27,23 +27,37 @@ function insertUUID(uuid, userId, callback) {
   uuid = String(uuid);
   userId = String(userId);
 
-  sql = `INSERT INTO USER_UUID (UUID, USER_ID) VALUES (?, ?);`;
-  db.run(sql, [uuid, userId], function (err) {
+  // First, check if the userId is already present
+  const checkSql = `SELECT * FROM USER_UUID WHERE USER_ID = ?`;
+  db.get(checkSql, [userId], (err, row) => {
     if (err) {
-      console.log("ERROR INSERTING INTO TABLE", err.message);
+      console.log("ERROR CHECKING USER_ID", err.message);
       callback(err);
+    } else if (row) {
+      // If the userId is found, return the existing row
+      console.log("UserID already exists:", row);
+      callback(null, row);
     } else {
-      console.log("Data inserted successfully");
-
-      // Retrieve and display the inserted data
-      const selectSql = `SELECT * FROM USER_UUID WHERE UUID = ?`;
-      db.get(selectSql, [uuid], (err, row) => {
+      // If the userId is not found, proceed to insert the new data
+      const insertSql = `INSERT INTO USER_UUID (UUID, USER_ID) VALUES (?, ?);`;
+      db.run(insertSql, [uuid, userId], function (err) {
         if (err) {
-          console.log("ERROR FETCHING DATA", err.message);
+          console.log("ERROR INSERTING INTO TABLE", err.message);
           callback(err);
         } else {
-          console.log("Inserted Data:", row);
-          callback(null, row);
+          console.log("Data inserted successfully");
+
+          // Retrieve and display the inserted data
+          const selectSql = `SELECT * FROM USER_UUID WHERE UUID = ?`;
+          db.get(selectSql, [uuid], (err, row) => {
+            if (err) {
+              console.log("ERROR FETCHING DATA", err.message);
+              callback(err);
+            } else {
+              console.log("Inserted Data:", row);
+              callback(null, row);
+            }
+          });
         }
       });
     }
