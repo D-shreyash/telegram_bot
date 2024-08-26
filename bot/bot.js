@@ -48,7 +48,7 @@ bot.onText(/\/create/, (msg) => {
     } else {
       bot.sendMessage(
         chatId,
-        `🎉 Your UUID is ready! To view it, visit:\nhttps://telegram-bot-tawny-eight.vercel.app/link/${row.UUID}`
+        `🎉 Your UUID is ready! To view it, visit:\nhttps://telegram-bot-1-9vyi.onrender.com/link/${row.UUID}`
       );
     }
   });
