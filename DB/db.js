@@ -1,5 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 let sql;
 
 // Use an absolute path for the database file
