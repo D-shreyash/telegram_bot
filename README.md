@@ -23,3 +23,6 @@ To run the bot locally, follow these steps:
    ```bash
    git clone https://github.com/yourusername/telegram_bot.git
    cd telegram_bot
+2. **TO start project:**
+   npm i 
+   npm start
