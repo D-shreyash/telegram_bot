@@ -48,7 +48,7 @@ bot.onText(/\/create/, (msg) => {
     } else {
       bot.sendMessage(
         chatId,
-        `🎉 Your UUID is ready! To view it, visit:\nhttps://telegram-bot-zgqe.onrender.com/link/${row.UUID}`
+        `🎉 Your UUID is ready! To view it, visit:\nhttps://telegram-bot-bn71.onrender.com/link/${row.UUID}`
       );
     }
   });
